@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+  private final AuthService authService;
+
+
   @PostMapping("/register")
   public ResponseEntity<AuthenticationResponse> Register(@RequestBody RegisterReq request) {
-
-    return null;
-
+    return ResponseEntity.ok(authService.Register(request));
   }
+  
   @PostMapping("login")
   public ResponseEntity<AuthenticationResponse> Login(@RequestBody LogingReq entity) {
-      
-      
-      return null;
+      return ResponseEntity.ok(authService.Login(entity));
   }
   
 }
