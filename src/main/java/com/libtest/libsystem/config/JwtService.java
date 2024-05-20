@@ -1,11 +1,11 @@
 package com.libtest.libsystem.config;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.crypto.SecretKey;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -20,8 +20,10 @@ import io.jsonwebtoken.security.Keys;
 
 @Service
 public class JwtService {
-  SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode("secret"));
+  private String key = "c2VjcmV0" ;
 
+  
+  
   public String createToken(User user) {
     return createToken(new HashMap<>(), user);
   }
@@ -33,7 +35,7 @@ public class JwtService {
         .setExpiration(new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
         .setSubject(userDetails.getUsername())
         .setClaims(claims)
-        .signWith(key, SignatureAlgorithm.HS256)
+        .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   };
 
@@ -58,8 +60,14 @@ public class JwtService {
 
   public Claims getAllClaims(String token) {
     return Jwts.parserBuilder()
-        .setSigningKey(key).build()
+        .setSigningKey(getSignInKey()).build()
         .parseClaimsJws(token)
         .getBody();
   }
+
+  private Key getSignInKey() {
+    byte[] keyBytes = Decoders.BASE64.decode(key);
+    return Keys.hmacShaKeyFor(keyBytes);
+  }
+
 }
