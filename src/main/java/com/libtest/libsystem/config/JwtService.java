@@ -23,21 +23,23 @@ public class JwtService {
 
   @Value("${application.security.jwt.secret-key}")
   private String key;
+  @Value("${application.security.jwt.expiration}")
+  Integer expiration;
 
-  
-  
   public String createToken(User user) {
     return createToken(new HashMap<>(), user);
   }
 
-  public String createToken(Map<String, Object> claims, UserDetails userDetails) {
+  public String createToken(Map<String, Object> claims, User userDetails) {
+    claims.put("role", userDetails.getRole());
+    claims.put("name", userDetails.getName());
     return Jwts.builder()
+        .setClaims(claims)
+        .setId(userDetails.getId())
+        .setSubject(userDetails.getEmail())
         .setIssuer("libsystem")
         .setIssuedAt(new java.util.Date())
-        .setExpiration(new java.util.Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-        .setSubject(userDetails.getUsername())
-        .setClaims(claims)
-        .setPayload(userDetails.getUsername())
+        .setExpiration(new java.util.Date(System.currentTimeMillis() + expiration ))
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   };
