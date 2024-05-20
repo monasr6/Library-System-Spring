@@ -40,7 +40,7 @@ public class AuthService {
         .build();
   }
 
-  public AuthenticationResponse Login(LogingReq request) {
+  public AuthenticationResponse Login(LoginReq request) {
     authenticationManager.authenticate (
         new UsernamePasswordAuthenticationToken(
           request.getEmail(), 
