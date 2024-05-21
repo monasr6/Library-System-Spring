@@ -25,7 +25,7 @@ public class bookService  {
       }
     
       public Book updateBook(Integer id, Book book) {
-        book.setId(id);
+        book.setBook_id(id);
         return _bookRepository.save(book);
       }
     
