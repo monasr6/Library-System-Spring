@@ -2,6 +2,7 @@ package com.libtest.libsystem.patron;
 
 import java.util.List;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class patronService {
     private final UserRepository userRepository;
 
+    @Cacheable("patrons")
     public List<User> getAllPatrons() {
         return userRepository.findAll();
     }

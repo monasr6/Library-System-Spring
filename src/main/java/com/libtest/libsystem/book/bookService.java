@@ -1,5 +1,6 @@
 package com.libtest.libsystem.book;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,8 @@ import java.util.List;
 public class bookService  {
       
       private final bookRepository _bookRepository;
-    
+
+      @Cacheable("books")
       public List<Book> getBooks() {
         return _bookRepository.findAll();
       }
