@@ -42,14 +42,14 @@ This project is a Library Management System API built using Spring Boot. The sys
   - `id` (Long): Unique identifier for the user.
   - `username` (String): Username of the user.
   - `password` (String): Encrypted password of the user.
-  - `role` (Role): Role of the user (e.g., LIBRARIAN, ADMIN).
+  - `role` (Role): Role of the user (e.g., USER, ADMIN).
 
 ### Enums
 
 #### Role
 
 - **Values**:
-  - `LIBRARIAN`
+  - `USER`
   - `ADMIN`
 
 ### API Endpoints

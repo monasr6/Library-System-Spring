@@ -32,4 +32,13 @@ public class borrowService {
 
         return _borrowRepository.save(borrowing);
     }
+
+    public void returnBook(Integer book_id, Integer user_id) throws NotFoundException {
+        Borrow borrowing = _borrowRepository.findByBook_idAndUser_id(book_id, user_id)
+            .orElseThrow(() -> new NotFoundException());
+    
+        borrowing.setReturnedAt(LocalDateTime.now());
+    
+        _borrowRepository.save(borrowing);
+    }
 }

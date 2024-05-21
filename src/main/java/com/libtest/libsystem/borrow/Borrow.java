@@ -38,7 +38,13 @@ public class Borrow {
 
     private LocalDateTime borrowedAt;
 
+    private LocalDateTime returnedAt;
+
     public void setBorrowedAt(LocalDateTime now) {
         this.borrowedAt = now;
+    }
+
+    public void setReturnedAt(LocalDateTime now) {
+        this.returnedAt = now;
     }
 }
