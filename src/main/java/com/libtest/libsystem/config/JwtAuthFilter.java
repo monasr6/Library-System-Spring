@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.micrometer.common.lang.NonNull;
@@ -16,6 +17,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+
+@Component
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
 
@@ -29,6 +32,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       @NonNull HttpServletResponse response,
       @NonNull FilterChain filterChain)
       throws ServletException, IOException {
+        if (request.getServletPath().contains("/api/auth")) {
+          filterChain.doFilter(request, response);
+          return;
+        }
 
     final String authHeader = request.getHeader("Authorization");
     final String token;
@@ -50,9 +57,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
           SecurityContextHolder.getContext().setAuthentication(authToken);
         }
       }
-      filterChain.doFilter(request, response);
     }
-
+    filterChain.doFilter(request, response);
   }
 
 }

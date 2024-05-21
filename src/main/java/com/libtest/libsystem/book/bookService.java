@@ -2,16 +2,15 @@ package com.libtest.libsystem.book;
 
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class bookService  {
       
       private final bookRepository _bookRepository;
-    
-      public bookService(bookRepository bookRepository) {
-        this._bookRepository = bookRepository;
-      }
     
       public List<Book> getBooks() {
         return _bookRepository.findAll();
@@ -31,7 +30,14 @@ public class bookService  {
       }
     
       public void deleteBook(Integer id) {
-        _bookRepository.deleteById(id);
+
+        Book book = _bookRepository.findById(id).orElse(null);
+        if (book == null) {
+          return;
+        }
+        book.setDeleted(1);
+        _bookRepository.save(book);
+
         return;
       }
 

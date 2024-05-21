@@ -26,7 +26,7 @@ public class User implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-  private Integer id;
+  private Integer user_id;
   private String name;
   private String email;
   private String password;
@@ -57,7 +57,7 @@ public class User implements UserDetails {
   }
 
   public String getId() {
-    return id.toString();
+    return user_id.toString();
   }
 
   @Override

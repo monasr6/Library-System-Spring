@@ -1,6 +1,12 @@
 package com.libtest.libsystem.book;
 
+import com.libtest.libsystem.user.User;
+
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,8 +20,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "book")
 public class Book {
-  
+
+    @Id
+    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String title;
     private String author;
     private String genre;
